@@ -133,7 +133,6 @@ Properties:
 - uint numAttributes // readonly
 - bool occludee
 - bool occluder
-- float pixelsPerUnit
 - int refs // readonly
 - float shadowDistance
 - uint shadowMask
@@ -1779,7 +1778,6 @@ Properties:
 - uint numAttributes // readonly
 - bool occludee
 - bool occluder
-- float pixelsPerUnit
 - int refs // readonly
 - float shadowDistance
 - uint shadowMask
@@ -3728,7 +3726,6 @@ Properties:
 - uint numAttributes // readonly
 - bool occludee
 - bool occluder
-- float pixelsPerUnit
 - int refs // readonly
 - float shadowDistance
 - uint shadowMask
@@ -4410,6 +4407,7 @@ Properties:
 - Octree@ octree // readonly
 - Node@ parent
 - PhysicsWorld@ physicsWorld // readonly
+- float pixelsPerUnit
 - Vector3 position
 - int refs // readonly
 - PackageFile@[]@ requiredPackageFiles // readonly
@@ -5740,7 +5738,6 @@ Properties:
 - uint numAttributes // readonly
 - bool occludee
 - bool occluder
-- float pixelsPerUnit
 - int refs // readonly
 - float shadowDistance
 - uint shadowMask

@@ -166,7 +166,6 @@ Node node;
 uint numAttributes;
 bool occludee;
 bool occluder;
-float pixelsPerUnit;
 /* readonly */
 int refs;
 float shadowDistance;
@@ -2113,7 +2112,6 @@ Node node;
 uint numAttributes;
 bool occludee;
 bool occluder;
-float pixelsPerUnit;
 /* readonly */
 int refs;
 float shadowDistance;
@@ -4472,7 +4470,6 @@ Node node;
 uint numAttributes;
 bool occludee;
 bool occluder;
-float pixelsPerUnit;
 /* readonly */
 int refs;
 float shadowDistance;
@@ -5244,6 +5241,7 @@ Octree octree;
 Node parent;
 /* readonly */
 PhysicsWorld physicsWorld;
+float pixelsPerUnit;
 Vector3 position;
 /* readonly */
 int refs;
@@ -6846,7 +6844,6 @@ Node node;
 uint numAttributes;
 bool occludee;
 bool occluder;
-float pixelsPerUnit;
 /* readonly */
 int refs;
 float shadowDistance;

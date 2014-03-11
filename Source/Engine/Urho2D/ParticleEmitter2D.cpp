@@ -55,7 +55,6 @@ void ParticleEmitter2D::RegisterObject(Context* context)
 
     ACCESSOR_ATTRIBUTE(ParticleEmitter2D, VAR_RESOURCEREF, "Particle Model", GetParticleModelAttr, SetParticleModelAttr, ResourceRef, ResourceRef(ParticleModel2D::GetTypeStatic()), AM_DEFAULT);
     COPY_BASE_ATTRIBUTES(ParticleEmitter2D, Drawable2D);
-    REMOVE_ATTRIBUTE(ParticleEmitter2D, "Pixels Per Unit");
 }
 
 void ParticleEmitter2D::OnSetEnabled()
@@ -88,7 +87,7 @@ void ParticleEmitter2D::Update(const FrameInfo& frame)
 
     float timeStep = frame.timeStep_;
     Vector3 worldPosition = GetNode()->GetWorldPosition();
-    float worldScale = GetNode()->GetWorldScale().x_;
+    float worldScale = GetNode()->GetWorldScale().x_ / GetScene()->GetPixelsPerUnit();
 
     unsigned particleIndex = 0;
     while (particleIndex < numParticles_)
