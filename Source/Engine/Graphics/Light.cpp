@@ -472,10 +472,22 @@ void Light::OnWorldBoundingBoxUpdate()
 void Light::SetIntensitySortValue(float distance)
 {
     // When sorting lights globally, give priority to directional lights so that they will be combined into the ambient pass
-    if (lightType_ != LIGHT_DIRECTIONAL)
-        sortValue_ = Max(distance, M_MIN_NEARCLIP) / (Max(color_.SumRGB(), 0.0f) + M_EPSILON);
+    if (!IsNegative())
+    {
+        if (lightType_ != LIGHT_DIRECTIONAL)
+            sortValue_ = Max(distance, M_MIN_NEARCLIP) / GetIntensityDivisor();
+        else
+            sortValue_ = M_EPSILON / GetIntensityDivisor();
+    }
     else
-        sortValue_ = M_EPSILON / (Max(color_.SumRGB(), 0.0f) + M_EPSILON);
+    {
+        // Give extra priority to negative lights in the global sorting order so that they're handled first, right after ambient.
+        // Positive lights are added after them
+        if (lightType_ != LIGHT_DIRECTIONAL)
+            sortValue_ = -Max(distance, M_MIN_NEARCLIP) * GetIntensityDivisor();
+        else
+            sortValue_ = -M_LARGE_VALUE * GetIntensityDivisor();
+    }
 }
 
 void Light::SetIntensitySortValue(const BoundingBox& box)
@@ -484,7 +496,7 @@ void Light::SetIntensitySortValue(const BoundingBox& box)
     switch (lightType_)
     {
     case LIGHT_DIRECTIONAL:
-        sortValue_ = 1.0f / (Max(color_.SumRGB(), 0.0f) + M_EPSILON);
+        sortValue_ = 1.0f / GetIntensityDivisor();
         break;
 
     case LIGHT_SPOT:
@@ -511,7 +523,7 @@ void Light::SetIntensitySortValue(const BoundingBox& box)
             float spotFactor = Min(spotAngle / maxAngle, 1.0f);
             // We do not know the actual range attenuation ramp, so take only spot attenuation into account
             float att = Max(1.0f - spotFactor * spotFactor, M_EPSILON);
-            sortValue_ = 1.0f / (Max(color_.SumRGB(), 0.0f) * att + M_EPSILON);
+            sortValue_ = 1.0f / GetIntensityDivisor(att);
         }
         break;
 
