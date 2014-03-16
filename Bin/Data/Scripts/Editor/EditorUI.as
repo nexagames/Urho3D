@@ -923,6 +923,7 @@ void CreateConsole()
     Console@ console = engine.CreateConsole();
     console.defaultStyle = uiStyle;
     console.numRows = 16;
+    console.autoVisibleOnError = true;
 }
 
 void CreateDebugHud()
@@ -1137,7 +1138,7 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
     else if (key == KEY_F4)
         ToggleOctreeDebug();
 
-    else if (key == KEY_NUMPAD1 && ui.focusElement is null) // Front view
+    else if (key == KEY_KP_1 && ui.focusElement is null) // Front view
     {
         Vector3 pos = cameraNode.position;
         pos.z = -pos.length * viewDirection;
@@ -1148,7 +1149,7 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
         ReacquireCameraYawPitch();
     }
 
-    else if (key == KEY_NUMPAD3 && ui.focusElement is null) // Side view
+    else if (key == KEY_KP_3 && ui.focusElement is null) // Side view
     {
         Vector3 pos = cameraNode.position;
         pos.x = pos.length * viewDirection;
@@ -1159,7 +1160,7 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
         ReacquireCameraYawPitch();
     }
 
-    else if (key == KEY_NUMPAD7 && ui.focusElement is null) // Top view
+    else if (key == KEY_KP_7 && ui.focusElement is null) // Top view
     {
         Vector3 pos = cameraNode.position;
         pos.y = pos.length * viewDirection;
@@ -1170,7 +1171,7 @@ void HandleKeyDown(StringHash eventType, VariantMap& eventData)
         ReacquireCameraYawPitch();
     }
 
-    else if (key == KEY_NUMPAD5 && ui.focusElement is null)
+    else if (key == KEY_KP_5 && ui.focusElement is null)
     {
         activeViewport.ToggleOrthographic();
     }
@@ -1384,11 +1385,4 @@ bool LoadMostRecentScene()
         return false;
 
     return LoadScene(text.text);
-}
-
-void HandleErrorEvent(StringHash eventType, VariantMap& eventData)
-{
-    // Open console if it not yet open
-    if (!console.visible)
-        console.visible = true;
 }

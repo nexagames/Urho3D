@@ -26,7 +26,10 @@
 #include "Animation2D.h"
 #include "APITemplates.h"
 #include "CollisionBox2D.h"
+#include "CollisionChain2D.h"
 #include "CollisionCircle2D.h"
+#include "CollisionEdge2D.h"
+#include "CollisionPolygon2D.h"
 #include "CollisionShape2D.h"
 #include "Drawable2D.h"
 #include "ParticleEmitter2D.h"
@@ -290,6 +293,60 @@ static void RegisterCollisionCircle2D(asIScriptEngine* engine)
     engine->RegisterObjectMethod("CollisionCircle2D", "const Vector2& get_center() const", asMETHOD(CollisionCircle2D, GetCenter), asCALL_THISCALL);
 }
 
+static void CollisionChain2DSetVertices(CScriptArray* vertices, CollisionChain2D* ptr)
+{
+    ptr->SetVertices(ArrayToPODVector<Vector2>(vertices));
+}
+
+static CScriptArray* CollisionChain2DGetVertices(CollisionChain2D* ptr)
+{
+    return VectorToArray<Vector2>(ptr->GetVertices(), "Array<Vector2>");
+}
+
+static void RegisterCollisionChain2D(asIScriptEngine* engine)
+{
+    RegisterCollisionShape2D<CollisionChain2D>(engine, "CollisionChain2D");
+    engine->RegisterObjectMethod("CollisionChain2D", "void set_loop(bool)", asMETHOD(CollisionChain2D, SetLoop), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionChain2D", "bool get_loop() const", asMETHOD(CollisionChain2D, GetLoop), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionChain2D", "void set_vertexCount(uint)", asMETHOD(CollisionChain2D, SetVertexCount), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionChain2D", "uint get_vertexCount() const", asMETHOD(CollisionChain2D, GetVertexCount), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionChain2D", "void SetVertex(uint, const Vector2&in)", asMETHOD(CollisionChain2D, SetVertex), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionChain2D", "const Vector2& GetVertex(uint) const", asMETHOD(CollisionChain2D, GetVertex), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionChain2D", "void SetVertices(Array<Vector2>@+)", asFUNCTION(CollisionChain2DSetVertices), asCALL_CDECL_OBJLAST);
+    engine->RegisterObjectMethod("CollisionChain2D", "Array<Vector2>@ GetVertices() const", asFUNCTION(CollisionChain2DGetVertices), asCALL_CDECL_OBJLAST);
+}
+
+static void RegisterCollisionEdge2D(asIScriptEngine* engine)
+{
+    RegisterCollisionShape2D<CollisionEdge2D>(engine, "CollisionEdge2D");
+    engine->RegisterObjectMethod("CollisionEdge2D", "void set_vertex1(const Vector2&in)", asMETHOD(CollisionEdge2D, SetVertex1), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionEdge2D", "const Vector2& get_vertex1() const", asMETHOD(CollisionEdge2D, GetVertex1), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionEdge2D", "void set_vertex2(const Vector2&in)", asMETHOD(CollisionEdge2D, SetVertex2), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionEdge2D", "const Vector2& get_vertex2() const", asMETHOD(CollisionEdge2D, GetVertex2), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionEdge2D", "void SetVertices(const Vector2&in, const Vector2&in)", asMETHOD(CollisionEdge2D, SetVertices), asCALL_THISCALL);
+}
+
+static void CollisionPolygon2DSetVertices(CScriptArray* vertices, CollisionPolygon2D* ptr)
+{
+    ptr->SetVertices(ArrayToPODVector<Vector2>(vertices));
+}
+
+static CScriptArray* CollisionPolygon2DGetVertices(CollisionPolygon2D* ptr)
+{
+    return VectorToArray<Vector2>(ptr->GetVertices(), "Array<Vector2>");
+}
+
+static void RegisterCollisionPolygon2D(asIScriptEngine* engine)
+{
+    RegisterCollisionShape2D<CollisionPolygon2D>(engine, "CollisionPolygon2D");
+    engine->RegisterObjectMethod("CollisionPolygon2D", "void set_vertexCount(uint)", asMETHOD(CollisionPolygon2D, SetVertexCount), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionPolygon2D", "uint get_vertexCount() const", asMETHOD(CollisionPolygon2D, GetVertexCount), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionPolygon2D", "void SetVertex(uint, const Vector2&in)", asMETHOD(CollisionPolygon2D, SetVertex), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionPolygon2D", "const Vector2& GetVertex(uint) const", asMETHOD(CollisionPolygon2D, GetVertex), asCALL_THISCALL);
+    engine->RegisterObjectMethod("CollisionPolygon2D", "void SetVertices(Array<Vector2>@+)", asFUNCTION(CollisionPolygon2DSetVertices), asCALL_CDECL_OBJLAST);
+    engine->RegisterObjectMethod("CollisionPolygon2D", "Array<Vector2>@ GetVertices() const", asFUNCTION(CollisionPolygon2DGetVertices), asCALL_CDECL_OBJLAST);
+}
+
 void RegisterUrho2DAPI(asIScriptEngine* engine)
 {
     RegisterSprite2D(engine);
@@ -305,6 +362,9 @@ void RegisterUrho2DAPI(asIScriptEngine* engine)
     RegisterCollisionShape2D(engine);
     RegisterCollisionBox2D(engine);
     RegisterCollisionCircle2D(engine);
+    RegisterCollisionChain2D(engine);
+    RegisterCollisionEdge2D(engine);
+    RegisterCollisionPolygon2D(engine);
 }
 
 }
